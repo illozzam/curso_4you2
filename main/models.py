@@ -13,7 +13,7 @@ class Categoria(models.Model):
 class Produto(models.Model):
     nome = models.CharField(max_length=100)
     quantidade = models.IntegerField(default=1)
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    preco = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     dia_hora = models.DateTimeField(auto_now_add=True)
 

@@ -18,14 +18,14 @@ class InicialView(TemplateView):
 
 
 class CarrinhoView(View):
-    def get(self, request):
+    def get(self, request, **kwargs):
         contexto = {
-            'produto': Produto.objects.get(id=self.kwargs['produto_id']),
+            'produto': Produto.objects.get(id=kwargs['produto_id']),
         }
         return render(request, 'carrinho.html', contexto)
 
-    def post(self, request):
-        produto = Produto.objects.get(id=self.kwargs['produto_id'])
+    def post(self, request, **kwargs):
+        produto = Produto.objects.get(id=kwargs['produto_id'])
         quantidade = request.POST['quantidade']
         preco = request.POST.get('preco')
 
