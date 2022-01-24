@@ -22,7 +22,7 @@
 
                             {% for categoria in categorias %}
                                 <table class="table">
-                                    <tr><th>{{categoria.nome}}</th></tr>
+                                    <tr><th colspan="4">{{categoria.nome}}</th></tr>
                                     {% for produto in categoria.produto_set.all %}
                                         <tr>
                                             <td>
@@ -32,7 +32,10 @@
                                                 {{produto.quantidade}}
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary" href="{% url 'carrinho' produto.id %}">Comprar</a>
+                                                {{produto.preco}}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-{% if produto.preco %}warning{% else %}primary{% endif %}" href="{% url 'carrinho' produto.id %}">Comprar</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
