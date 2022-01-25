@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 
 from .models import Categoria, Produto
 
+from .forms import CarrinhoForm
+
 
 class InicialView(TemplateView):
     template_name = 'base.html'
@@ -19,18 +21,16 @@ class InicialView(TemplateView):
 
 class CarrinhoView(View):
     def get(self, request, **kwargs):
+        produto = Produto.objects.get(id=kwargs['produto_id'])
         contexto = {
-            'produto': Produto.objects.get(id=kwargs['produto_id']),
+            'produto': produto,
+            'formulario': CarrinhoForm(instance=produto),
         }
         return render(request, 'carrinho.html', contexto)
 
     def post(self, request, **kwargs):
         produto = Produto.objects.get(id=kwargs['produto_id'])
-        quantidade = request.POST['quantidade']
-        preco = request.POST.get('preco')
-
-        produto.quantidade = quantidade
-        if preco:
-            produto.preco = preco
-        produto.save()
+        formulario = CarrinhoForm(request.POST, instance=produto)
+        if formulario.is_valid():
+            formulario.save()
         return redirect('inicial')
